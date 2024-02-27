@@ -15,7 +15,7 @@ for entry in feed.entries:
     print(entry.summary)
 
     if '日' in entry.summary:
-        with open('C:/Users/User/Desktop/news.csv', 'a', encoding='utf-8') as file:
+        with open('C:/Users/User/Desktop/news.csv', 'a', encoding='utf-8-sig') as file:
             file.write(entry.title + '\n')
             file.write(entry.summary + '\n')
             file.write('=================================')
