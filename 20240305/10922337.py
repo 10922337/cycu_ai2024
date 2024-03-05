@@ -32,8 +32,18 @@ combined_data = pd.concat(data_frames)
 #將nan值改為後一天的價格
 combined_data = combined_data.fillna(method='bfill')
 
+def convert_date(date_str):
+    if '下午' in date_str:
+        date_str = date_str.replace('下午', 'PM')
+        return pd.to_datetime(date_str, format='%Y/%m/%d %p %I:%M:%S', errors='coerce')
+    elif '上午' in date_str:
+        date_str = date_str.replace('上午', 'AM')
+        return pd.to_datetime(date_str, format='%Y/%m/%d %p %I:%M:%S', errors='coerce')
+    else:
+        return pd.to_datetime(date_str, format='%Y/%m/%d', errors='coerce')
+
 # Convert the '調價日期' column to datetime
-combined_data[combined_data.columns[0]] = pd.to_datetime(combined_data[combined_data.columns[0]], errors='coerce')
+combined_data[combined_data.columns[0]] = combined_data[combined_data.columns[0]].apply(convert_date)
 
 # Get the date part of the datetime
 combined_data[combined_data.columns[0]] = combined_data[combined_data.columns[0]].dt.date
